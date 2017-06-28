@@ -1,7 +1,7 @@
 {
   "name": "coverage-test-service",
   "version": "0.1.0",
-  "description": "Server for the Vind project",
+  "description": "Node.js backend service listening over MQTT and plotting into Google Sheets",
   "main": "index.js",
   "scripts": {
     "start": "node client.js -u <username> -p <password> -t 'thing-update/<domain>/<thing ID>' -s '<sheet ID>'",
