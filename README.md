@@ -2,7 +2,7 @@
 
 > Node.js backend service listening over MQTT and plotting into Google Sheets
 
-## Prepare a new Google Sheet to be used
+## Prepare a New Google Sheet To Be Used
 
 1. Go to the [Google Developers Console](https://console.developers.google.com/project)
 2. Select your project or create a new one (and select it)
