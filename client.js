@@ -6,7 +6,7 @@ var argv = require('optimist')
   .demand('u').string('u')
   .demand('p').string('p')
   .demand('t').string('t')
-  .demand('s').string('s')
+  .string('s').default('s', null)
   .argv
 
 /* Libs */
@@ -27,7 +27,7 @@ MIC.init().then(() => {
   MIC.login(argv.u, argv.p).then(() => {
 
     /* Init Google Sheets */
-    spinner.text = 'Initializing Google Spreadsheet...'
+    spinner.text = 'Initializing Spreadsheet...'
     GS.init(argv.s).then(() => {
 
       /* Init MQTT client with AWS config */
@@ -38,7 +38,7 @@ MIC.init().then(() => {
     })
     .catch(error => {
       spinner.stop()
-      logger.error('-- Google Sheets: error,', error)
+      logger.error('-- Sheets: error,', error)
     })
   })
   .catch(error => {
@@ -49,7 +49,7 @@ MIC.init().then(() => {
 .catch(() => spinner.stop())
 
 /* Setup event handlers */
-const setupEVents = () => {
+const setupEvents = () => {
   MQTT.client.on('reconnect',  ()               => onReconnect())
   MQTT.client.on('connect',    ()               => onConnect())
   MQTT.client.on('message',    (topic, message) => onMessage(topic, message))
@@ -94,17 +94,11 @@ const onMessage = (topic, message) => {
   const data = JSON.parse(message)
 
   try {
-    const {
-      timestamp ,
-      pos,
-      latlng,
-      lsnr
-    } = data.state.reported
+    const { timestamp, pos, latlng, lsnr } = data.state.reported
     const rssi = data.state.reported.tcxn.cellular.rssi
-
-    GS.addRow({pos, timestamp, latlng, lsnr, rssi})
-
+    
     logger.info(`-- MQTT: got message, [${topic}]: ${pos}`)
+    GS.add({pos, timestamp, latlng, lsnr, rssi})
   } catch (e) {
     logger.warn('-- MQTT: failed to parse message')
   }
