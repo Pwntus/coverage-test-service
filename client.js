@@ -6,7 +6,7 @@ var argv = require('optimist')
   .demand('u').string('u')
   .demand('p').string('p')
   .demand('t').string('t')
-  .string('s').default('s', null)
+  .demand('s').string('s')
   .argv
 
 /* Libs */
@@ -98,7 +98,7 @@ const onMessage = (topic, message) => {
     const rssi = data.state.reported.tcxn.cellular.rssi
     
     logger.info(`-- MQTT: got message, [${topic}]: ${pos}`)
-    GS.add({pos, timestamp, latlng, lsnr, rssi})
+    GS.addRow({pos, timestamp, latlng, lsnr, rssi})
   } catch (e) {
     logger.warn('-- MQTT: failed to parse message')
   }
