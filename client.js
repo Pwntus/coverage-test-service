@@ -17,7 +17,7 @@ const GS = require('./lib/GoogleSheet')
 const MQTT = require('./lib/MQTTClient')
 
 /* Init CLI */
-const spinner = ora('Initializing Cloud Connect...')
+const spinner = ora('Initializing MIC...')
 spinner.color = 'green'
 spinner.start()
 
